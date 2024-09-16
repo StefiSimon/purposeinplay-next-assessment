@@ -7,7 +7,9 @@ const httpLink = new HttpLink({
 
 const authLink = setContext((_, { headers }) => {
   // Add authorization token if needed
-  const token = localStorage.getItem('token');
+  const token =
+    typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+  // Return the headers with the Authorization token if it exists
   return {
     headers: {
       ...headers,

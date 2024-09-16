@@ -1,7 +1,8 @@
 import { Badge, Box, Button, LogoWhite, Typography } from '@/app/components';
-import { HeroImg } from './HeroImg';
 import { AppRoutes } from '@/app/lib/constants';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import heroImg from './heroImg.png';
 
 export function HeroSection() {
   const router = useRouter();
@@ -16,12 +17,17 @@ export function HeroSection() {
     <div className="relative h-full max-h-halfScreen">
       {/* Image */}
       <div className="w-full h-full z-0 absolute top-0 left-0">
-        <div className="z-20 shadow-inset-dark p-6 w-full h-full absolute"></div>
-        <div className="w-full relative z-10 flex items-center justify-center h-full">
-          <HeroImg />
+        <div className="z-20 shadow-inset-dark w-full h-full absolute"></div>
+        <div className="w-full relative z-10 flex items-center justify-center h-full max-h-halfScreen">
+          <Image
+            src={heroImg}
+            alt="hero"
+            className="max-w-full h-full object-cover"
+            priority
+          />
         </div>
       </div>
-      <div className="relative px-20">
+      <div className="relative px-4 md:px-12 lg:px-20">
         {/* Header */}
         <Box
           direction="row"
@@ -33,7 +39,7 @@ export function HeroSection() {
             </div>
             <Badge
               variant="transparent"
-              className="gap-1 text-sm font-normal font-inter shadow-md text-white"
+              className="hidden md:flex gap-1 text-sm font-normal font-inter shadow-md text-white"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-alert"></span>
               <span>Connected Wallet:</span>

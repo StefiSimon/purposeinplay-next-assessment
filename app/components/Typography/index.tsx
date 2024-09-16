@@ -10,7 +10,7 @@ const H1 = ({
 }) => (
   <h1
     className={cs(
-      'text-textDefault text-4xl font-proxima leading-none font-bold',
+      'text-textDefault text-4xl md:text-5xl font-proxima leading-none font-bold',
       // @ts-ignore
       { [className]: !!className }
     )}

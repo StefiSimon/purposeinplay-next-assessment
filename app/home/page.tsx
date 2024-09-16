@@ -10,20 +10,26 @@ import {
   FooterSection,
   HeroSection,
 } from '../modules';
+import { useQuery } from '@apollo/client';
+import { GetUser } from '../lib/graphql/schema/queries/getUser';
+import client from '../lib/graphql/apolloClient';
 
 export default function Home() {
-  const router = useRouter();
+  const { loading, error, data } = useQuery(GetUser, {
+    client,
+  });
 
   useEffect(() => {
-    // Check for accessToken (either from localStorage or cookies)
-    const token = localStorage.getItem('accessToken'); // Or you can use cookies
-
-    if (!token) {
-      console.log('not logged in!');
-    } else {
-      console.log('logged in!');
+    if (!loading && !error) {
+      if (data?.user?.__typename === 'UserNotFoundError') {
+        console.log('User not found!');
+      } else if (data?.user?.__typename === 'InvalidTokenError') {
+        console.log('Invalid user token!');
+      } else if (data?.user?.__typename === 'User') {
+        console.log(data?.user);
+      }
     }
-  }, [router]);
+  }, [data, loading, error]);
 
   return (
     <Box
@@ -32,7 +38,7 @@ export default function Home() {
     >
       <HeroSection />
       {/* Home Section */}
-      <div className="relative px-20 py-4">
+      <div className="relative px-4 md:px-12 lg:px-20 py-4">
         <div className="mb-4">
           <Typography.h2 className="text-white">Games for You</Typography.h2>
           <Typography.Paragraph className="text-textSubdued">
@@ -42,7 +48,7 @@ export default function Home() {
         <GameCardGrid />
       </div>
 
-      <div className="relative px-20 py-4">
+      <div className="relative px-4 md:px-12 lg:px-20 py-4">
         <div className="mb-4">
           {' '}
           <Typography.h2 className="text-white">
@@ -55,10 +61,10 @@ export default function Home() {
         <TournamentGrid />
       </div>
 
-      <div className="relative px-20 py-4">
+      <div className="relative px-4 md:px-12 lg:px-20 py-4">
         <div className="mb-4">
           <Typography.h2 className="text-white text-xl font-semibold">
-            Leaderboards
+            Leaderboard
           </Typography.h2>
         </div>
         <LeaderBoardTable />

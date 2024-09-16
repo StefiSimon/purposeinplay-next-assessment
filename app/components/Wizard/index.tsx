@@ -40,7 +40,7 @@ export const Wizard = ({
   return (
     <Box
       direction="row"
-      className="items-center justify-between max-w-475 w-full px-8 pb-8"
+      className="items-center justify-between max-w-475 w-full px-2 pb-8 md:px-4 lg:px-8"
     >
       {Object?.keys(steps)?.map((key, index) => (
         <>

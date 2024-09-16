@@ -6,20 +6,23 @@ export function LeaderBoardTable() {
   const thStyles =
     'uppercase text-sm text-left text-textSubdued text-xs font-normal leading-8';
   return (
-    <div className="w-full">
+    <div className="w-full overflow-auto">
       <table className="table-auto w-full border-separate border-spacing-y-2">
         <thead>
           <tr className={thStyles}>
-            <th>game</th>
-            <th>player</th>
-            <th>bet amount</th>
-            <th>multiplier</th>
-            <th>profit</th>
+            <th className="min-w-56">game</th>
+            <th className="min-w-40">player</th>
+            <th className="min-w-40">bet amount</th>
+            <th className="min-w-40">multiplier</th>
+            <th className="min-w-40">profit</th>
           </tr>
         </thead>
         <tbody>
-          {leaderBoardItems?.map((row) => (
-            <tr className=" bg-backgroundSurfaceDefault font-normal text-sm ">
+          {leaderBoardItems?.map((row, index) => (
+            <tr
+              className=" bg-backgroundSurfaceDefault font-normal text-sm "
+              key={row?.profit + index}
+            >
               <td className="flex flex-row gap-2 p-2 items-center">
                 <div className="w-8 h-8">
                   <Image

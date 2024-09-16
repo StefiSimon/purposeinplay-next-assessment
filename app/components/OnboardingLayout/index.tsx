@@ -15,7 +15,7 @@ export const OnboardingLayout = ({ children }: { children: ReactNode }) => {
 
 export const OboardingLayoutCard = ({ children }: { children: ReactNode }) => (
   <div className="flex items-center justify-center min-h-full max-w-475 w-full">
-    <div className="bg-white p-8 min-w-24 w-full">{children}</div>
+    <div className="bg-white p-2 md:p-4 lg:p-8 min-w-24 w-full">{children}</div>
   </div>
 );
 
