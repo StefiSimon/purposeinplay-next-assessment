@@ -11,11 +11,12 @@ import {
   Link,
   Checkbox,
 } from '../components';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { SignUpUser } from '../lib/graphql/schema/mutations/signUp';
 import { AppRoutes } from '../lib/constants';
 import { useRouter } from 'next/navigation';
+import { AuthContext } from '../context/AuthProvider';
 
 const steps = {
   referral: {
@@ -36,6 +37,8 @@ export default function Signup() {
   const [registerError, setRegisterError] = useState(null);
   const [registerUser, { loading, error, data }] = useMutation(SignUpUser);
   const router = useRouter();
+
+  const { signIn } = useContext(AuthContext);
 
   useEffect(() => {
     setRegisterError(null);
@@ -61,15 +64,7 @@ export default function Signup() {
       });
 
       if (data.signUp.accessToken) {
-        const { tokenType, accessToken, expiresIn, refreshToken } = data.signUp;
-
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
-
-        const expirationTime = new Date().getTime() + expiresIn * 1000;
-        localStorage.setItem('tokenExpiry', expirationTime?.toString());
-
-        router.push(AppRoutes.home);
+        signIn?.(data.signUp);
         console.log('registered!');
       } else if (data.signUp.message) {
         setRegisterError(data.signUp.message);
@@ -82,6 +77,7 @@ export default function Signup() {
   const onGoToLoginClick = () => {
     router.push(AppRoutes.login);
   };
+
   return (
     <OnboardingLayout>
       <OnboardingLayout.Wizard steps={steps} activeStep={1} />

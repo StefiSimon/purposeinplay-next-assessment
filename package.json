@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",
+    "@uidotdev/usehooks": "^2.4.1",
     "apollo-server-micro": "^3.13.0",
     "classnames": "^2.5.1",
     "graphql": "^16.9.0",

@@ -2,6 +2,7 @@
 import './globals.css';
 import { ApolloProvider } from '@apollo/client';
 import client from './lib/graphql/apolloClient'; // Path to your apollo client setup
+import { AuthProvider } from './context/AuthProvider';
 
 export default function RootLayout({
   children,
@@ -15,7 +16,9 @@ export default function RootLayout({
       </head>
       <body>
         <ApolloProvider client={client}>
-          {children} {/* This renders the content of the pages */}
+          <AuthProvider>
+            {children} {/* This renders the content of the pages */}
+          </AuthProvider>
         </ApolloProvider>
       </body>
     </html>

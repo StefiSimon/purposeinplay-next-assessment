@@ -3,9 +3,12 @@ import { AppRoutes } from '@/app/lib/constants';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import heroImg from './heroImg.png';
+import { useCallback, useContext } from 'react';
+import { AuthContext } from '@/app/context/AuthProvider';
 
 export function HeroSection() {
   const router = useRouter();
+  const { signOut } = useContext(AuthContext);
 
   const onGoToLoginClick = () => {
     router.push(AppRoutes.login);
@@ -13,16 +16,23 @@ export function HeroSection() {
   const onGoToRegisterClick = () => {
     router.push(AppRoutes.signup);
   };
+  const onLogOutClick = useCallback(() => {
+    signOut();
+  }, [signOut]);
+
   return (
     <div className="relative h-full max-h-halfScreen">
       {/* Image */}
       <div className="w-full h-full z-0 absolute top-0 left-0">
-        <div className="z-20 shadow-inset-dark w-full h-full absolute"></div>
-        <div className="w-full relative z-10 flex items-center justify-center h-full max-h-halfScreen">
+        <div
+          className="z-20 shadow-inset-dark w-full  absolute"
+          style={{ height: 'calc(100% + 2px)' }}
+        ></div>
+        <div className="w-full h-full relative z-10 flex items-center justify-center max-h-halfScreen">
           <Image
             src={heroImg}
             alt="hero"
-            className="max-w-full h-full object-cover"
+            className="max-w-full w-full h-full object-cover"
             priority
           />
         </div>
@@ -61,6 +71,14 @@ export function HeroSection() {
               onClick={onGoToRegisterClick}
             >
               Register
+            </Button>
+            <Button
+              variant="transparent"
+              size="small"
+              className="text-alert hidden sm:block"
+              onClick={onLogOutClick}
+            >
+              Log Out
             </Button>
           </Box>
         </Box>

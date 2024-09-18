@@ -7,6 +7,14 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    screens: {
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1536px',
+      '3xl': '2200px',
+    },
     extend: {
       colors: {
         textDefault: '#131117',
@@ -39,6 +47,9 @@ const config: Config = {
       fontFamily: {
         proxima: ['proxima-nova', 'sans-serif'],
         inter: ['Inter', 'sans-serif'],
+      },
+      width: {
+        '3/10': '30%',
       },
       maxWidth: {
         '440': '440px',

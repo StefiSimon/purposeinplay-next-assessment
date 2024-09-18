@@ -12,9 +12,10 @@ import {
 } from '../components';
 import { useRouter } from 'next/navigation';
 import { AppRoutes } from '../lib/constants';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { SignInUser } from '../lib/graphql/schema/mutations/signIn';
+import { AuthContext } from '../context/AuthProvider';
 
 export default function Login() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function Login() {
   const [loginError, setLoginError] = useState<string | null>(null);
 
   const [signInUser, { loading, error, data }] = useMutation(SignInUser);
+  const { signIn } = useContext(AuthContext);
 
   useEffect(() => {
     setLoginError(null);
@@ -41,16 +43,7 @@ export default function Login() {
         });
 
         if (data.signIn.accessToken) {
-          const { tokenType, accessToken, expiresIn, refreshToken } =
-            data.signIn;
-
-          localStorage.setItem('accessToken', accessToken);
-          localStorage.setItem('refreshToken', refreshToken);
-
-          const expirationTime = new Date().getTime() + expiresIn * 1000;
-          localStorage.setItem('tokenExpiry', expirationTime?.toString());
-
-          router.push(AppRoutes.home);
+          signIn?.(data.signIn);
           console.log('logged in!');
         } else if (data.signIn.message) {
           setLoginError(data.signIn.message);
@@ -61,7 +54,7 @@ export default function Login() {
         console.error('Login error', err);
       }
     },
-    [email, password, loginError]
+    [email, password, loginError, signIn, signInUser]
   );
   const onGoToSignUpClick = () => {
     router.push(AppRoutes.signup);

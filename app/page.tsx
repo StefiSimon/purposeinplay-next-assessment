@@ -1,12 +1,20 @@
 'use client';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { AppRoutes } from './lib/constants';
+import { AuthContext } from './context/AuthProvider';
 
-export default function App() {
+function App() {
   const router = useRouter();
+  const { isAuthenticated } = useContext(AuthContext);
   useEffect(() => {
-    router.push(AppRoutes.home);
-  }, []);
+    if (isAuthenticated) {
+      router.push(AppRoutes.home);
+    } else {
+      router.push(AppRoutes.login);
+    }
+  }, [isAuthenticated]);
   return <></>;
 }
+
+export default App;
